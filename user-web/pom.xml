@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.robby.user</groupId>
+  <artifactId>user-web</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>user-web Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <repositories>
+  	<repository>
+   		<id>nexus</id>
+   		<name>Nexus Repository</name>
+   		<url>http://localhost:8081/nexus/content/groups/public/</url>
+   		<releases>
+   			<enabled>true</enabled>
+   		</releases>
+   		<snapshots>
+   			<enabled>true</enabled>
+   		</snapshots>
+   	</repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.10</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+	  <groupId>servletapi</groupId>
+	  <artifactId>servletapi</artifactId>
+	  <version>2.4-20040521</version>
+	  <scope>provided</scope>
+	</dependency>
+	<dependency>
+	  <groupId>javax.servlet.jsp</groupId>
+	  <artifactId>javax.servlet.jsp-api</artifactId>
+	  <version>2.3.1</version>
+	  <scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.18</version>
+	</dependency>
+  </dependencies>
+  <build>
+    <finalName>user-web</finalName>
+  </build>
+</project>

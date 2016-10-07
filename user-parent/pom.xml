@@ -1,0 +1,184 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+	<!-- 继承 -->
+  <groupId>com.robby.user</groupId>
+  <artifactId>user-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+	<!-- 聚合 -->
+  <modules>
+		<module>../user-core</module>
+		<module>../user-dao</module>
+		<module>../user-log1</module>
+		<module>../user-service</module>
+  </modules>
+  <name>user-parent</name>
+  <url>http://maven.apache.org</url>
+  
+  
+  <!-- 发布 -->
+  <distributionManagement>
+  	<snapshotRepository><!-- 发布快照版本 -->
+  		<id>user-snapshots</id>
+  		<name>User Project SNAPSHOTS</name>
+  		<!--  <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>  发布到项目仓库-->
+  		<url>http://localhost:8081/nexus/content/repositories/myuser-snapshots/</url>
+  	</snapshotRepository>
+  	<repository><!-- 发布release版本 -->
+  		<id>user-releases</id>
+  		<name>User Project RELEASES</name>
+  		<!--  <url>http://localhost:8081/nexus/content/repositories/releases/</url>-->
+  		<url>http://localhost:8081/nexus/content/repositories/myuser-releases/</url>
+  	</repository>
+  </distributionManagement>
+  <!-- 仓库 -->
+  <repositories>
+  	<repository>
+  		<id>central</id>
+  		<name>Central Repository</name>
+  		<url>https://nexus.sourcesense.com/nexus/content/repositories/public/</url>
+  		<layout>default</layout>
+  		<snapshots>
+  			<enabled>false</enabled>
+  		</snapshots>
+   	</repository>
+   	<repository>
+   		<id>nexus</id>
+   		<name>Nexus Repository</name>
+   		<url>http://localhost:8081/nexus/content/groups/public/</url>
+   		<releases>
+   			<enabled>true</enabled>
+   		</releases>
+   		<snapshots>
+   			<enabled>true</enabled>
+   		</snapshots>
+   	</repository>
+  </repositories>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.10</junit.version>
+    <mysql.driver>com.mysql.jdbc.Driver</mysql.driver>
+    <mysql.url>jdbc:mysql://localhost:3306</mysql.url>
+    <mysql.username>root</mysql.username>
+    <mysql.password></mysql.password>
+  </properties>
+
+  <dependencyManagement>
+  	<dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.9</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-logging</groupId>
+		<artifactId>commons-logging</artifactId>
+		<version>1.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-core</artifactId>
+		<version>3.6.1.Final</version>
+	</dependency>
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.18</version>
+	</dependency>
+    <dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-log4j12</artifactId>
+		<version>1.6.4</version>
+	</dependency>
+	<dependency>
+		<groupId>org.javassist</groupId>
+		<artifactId>javassist</artifactId>
+		<version>3.13.0-GA</version>
+	</dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>user-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+    	<groupId>${project.groupId}</groupId>
+    	<artifactId>user-dao</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+    <dependency>
+    	<groupId>${project.groupId}</groupId>
+    	<artifactId>user-log1</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+    <dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpmime</artifactId>
+		<version>4.3.3</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-resources-plugin</artifactId>
+	    <version>2.4.3</version>
+	</dependency>
+  </dependencies>
+  </dependencyManagement>
+  <!-- 使用插件 -->
+  <build>
+  	<pluginManagement>
+  		<plugins>
+  			<plugin>
+  				<groupId>org.apache.maven.plugins</groupId>
+  				<artifactId>maven-source-plugin</artifactId>
+  				<version>2.1.2</version>
+  				<executions>
+  					<execution>
+  						<phase>package</phase><!-- 绑定的周期 -->
+  						<goals>
+  							<goal>jar-no-fork</goal><!-- 运行目标 -->
+  						</goals>
+  					</execution>
+  				</executions>
+  			</plugin>
+  			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+
+  				<dependencies>
+  					<dependency>
+  						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.18</version>
+  					</dependency>
+  				</dependencies>
+  				<configuration>
+  					<driver>${mysql.driver}</driver>
+  					<url>${mysql.url}</url>
+  					<username>${mysql.username}</username>
+					<password>${mysql.password}</password>
+					<sqlCommand>
+						create database if not exists maven_test
+					</sqlCommand>
+  				</configuration>
+  				<executions>
+  					<execution>
+  						<phase>package</phase>
+  						<goals>
+  							<goal>execute</goal>
+  						</goals>
+  					</execution>
+  				</executions>
+  			</plugin>
+  		</plugins>
+  	</pluginManagement>
+  </build>
+  
+</project>
